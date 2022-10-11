@@ -4,15 +4,21 @@
 
 class WebServer
 {
-public:
+public: // Construct
+    // 禁用拷贝构造函数
+    WebServer(const WebServer &) = delete;
     WebServer(const ServerConf &config); // 初始化服务器配置
     ~WebServer();
-    void Listen(); // 循环监听请求
 
-private:
+public:               // methods
+    void EventLoop(); // 循环监听请求
+
+private: // attributes
+    ThreadPool *m_pool;
+    int m_listen_fd;
+    const ServerConf m_config;
+
+private: // methods
     void init();
-    ThreadPool *Pool;
-    int listen_fd;
-    const ServerConf config;
-    static void accepter();
+    static void Accepter(void *arg);
 };
