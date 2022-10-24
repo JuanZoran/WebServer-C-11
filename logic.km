@@ -1,0 +1,241 @@
+{
+    "root": {
+        "data": {
+            "id": "cnrd7zkcads0",
+            "created": 1666331509453,
+            "text": "WebServer"
+        },
+        "children": [
+            {
+                "data": {
+                    "id": "cnrd8e1vs3c0",
+                    "created": 1666331540989,
+                    "text": "配置服务器"
+                },
+                "children": [
+                    {
+                        "data": {
+                            "id": "cnrd9tcewc00",
+                            "created": 1666331652642,
+                            "text": "服务器的端口"
+                        },
+                        "children": []
+                    },
+                    {
+                        "data": {
+                            "id": "cnrd9y8iggg0",
+                            "created": 1666331663290,
+                            "text": "服务器的IP"
+                        },
+                        "children": []
+                    },
+                    {
+                        "data": {
+                            "id": "cnrdh1d892o0",
+                            "created": 1666332218654,
+                            "text": "Epoll树的工作模式"
+                        },
+                        "children": []
+                    }
+                ]
+            },
+            {
+                "data": {
+                    "id": "cnrd9glpr200",
+                    "created": 1666331624906,
+                    "text": "初始化服务器"
+                },
+                "children": [
+                    {
+                        "data": {
+                            "id": "cnrda7c1c5c0",
+                            "created": 1666331683094,
+                            "text": "初始化监听文件描述符"
+                        },
+                        "children": []
+                    },
+                    {
+                        "data": {
+                            "id": "cnrdakeundc0",
+                            "created": 1666331711562,
+                            "text": "初始化Epoll树"
+                        },
+                        "children": [
+                            {
+                                "data": {
+                                    "id": "cnrdgkfz9ts0",
+                                    "created": 1666332181816,
+                                    "text": "创建Epoll树实例"
+                                },
+                                "children": []
+                            },
+                            {
+                                "data": {
+                                    "id": "cnrdgrveafs0",
+                                    "created": 1666332197985,
+                                    "text": "设置Epoll的工作模式"
+                                },
+                                "children": []
+                            }
+                        ]
+                    }
+                ]
+            },
+            {
+                "data": {
+                    "id": "cnrd9l3vf200",
+                    "created": 1666331634711,
+                    "text": "启动服务器"
+                },
+                "children": [
+                    {
+                        "data": {
+                            "id": "cnrdbc3rs3k0",
+                            "created": 1666331771842,
+                            "text": "监听文件描述符"
+                        },
+                        "children": []
+                    },
+                    {
+                        "data": {
+                            "id": "cnrdbmusz2o0",
+                            "created": 1666331795245,
+                            "text": "开始Epoll监听循环",
+                            "expandState": "expand"
+                        },
+                        "children": [
+                            {
+                                "data": {
+                                    "id": "cnrdcrawrc00",
+                                    "created": 1666331883290,
+                                    "text": "连接事件"
+                                },
+                                "children": [
+                                    {
+                                        "data": {
+                                            "id": "cnrdd44y9uw0",
+                                            "created": 1666331911228,
+                                            "text": "分发给Accepter"
+                                        },
+                                        "children": [
+                                            {
+                                                "data": {
+                                                    "id": "cnrde8993aw0",
+                                                    "created": 1666331998559,
+                                                    "text": "接受连接请求"
+                                                },
+                                                "children": []
+                                            },
+                                            {
+                                                "data": {
+                                                    "id": "cnrdeew98e00",
+                                                    "created": 1666332013011,
+                                                    "text": "将文件描述符设置为非阻塞"
+                                                },
+                                                "children": []
+                                            },
+                                            {
+                                                "data": {
+                                                    "id": "cnrdejmhzs00",
+                                                    "created": 1666332023305,
+                                                    "text": "将文件描述符插入Epoll树上"
+                                                },
+                                                "children": []
+                                            }
+                                        ]
+                                    }
+                                ]
+                            },
+                            {
+                                "data": {
+                                    "id": "cnrdd1k3udc0",
+                                    "created": 1666331905614,
+                                    "text": "请求事件"
+                                },
+                                "children": [
+                                    {
+                                        "data": {
+                                            "id": "cnrddsq7lnk0",
+                                            "created": 1666331964756,
+                                            "text": "分发给Reactor"
+                                        },
+                                        "children": [
+                                            {
+                                                "data": {
+                                                    "id": "cnrdf3x0tr40",
+                                                    "created": 1666332067477,
+                                                    "text": "Receiver接收请求"
+                                                },
+                                                "children": []
+                                            },
+                                            {
+                                                "data": {
+                                                    "id": "cnrdffdzdew0",
+                                                    "created": 1666332092447,
+                                                    "text": "Parser解析请求"
+                                                },
+                                                "children": []
+                                            },
+                                            {
+                                                "data": {
+                                                    "id": "cnrdfk7lh4w0",
+                                                    "created": 1666332102944,
+                                                    "text": "Handler客户端的请求"
+                                                },
+                                                "children": []
+                                            },
+                                            {
+                                                "data": {
+                                                    "id": "cnrdftmu35s0",
+                                                    "created": 1666332123457,
+                                                    "text": "Responser响应客户端的请求"
+                                                },
+                                                "children": []
+                                            }
+                                        ]
+                                    }
+                                ]
+                            }
+                        ]
+                    }
+                ]
+            },
+            {
+                "data": {
+                    "id": "cnrdk2h6xe80",
+                    "created": 1666332456163,
+                    "text": "TODO"
+                },
+                "children": [
+                    {
+                        "data": {
+                            "id": "cnrdk3rlfyo0",
+                            "created": 1666332458969,
+                            "text": "日志系统"
+                        },
+                        "children": []
+                    },
+                    {
+                        "data": {
+                            "id": "cnrdk7ir8cw0",
+                            "created": 1666332467142,
+                            "text": "多线程"
+                        },
+                        "children": []
+                    },
+                    {
+                        "data": {
+                            "id": "cnrdki94k1c0",
+                            "created": 1666332490504,
+                            "text": "数据库交互"
+                        },
+                        "children": []
+                    }
+                ]
+            }
+        ]
+    },
+    "template": "default",
+    "theme": "fresh-blue",
+    "version": "1.4.43"
+}

@@ -1,0 +1,32 @@
+[
+{
+  "directory": "/home/zoran/project/Cpp_Server/build",
+  "command": "/usr/bin/clang++  -I/home/zoran/project/Cpp_Server/include -O3 -std=gnu++17 -o CMakeFiles/Cpp-Server.dir/src/Accepter.cpp.o -c /home/zoran/project/Cpp_Server/src/Accepter.cpp",
+  "file": "/home/zoran/project/Cpp_Server/src/Accepter.cpp"
+},
+{
+  "directory": "/home/zoran/project/Cpp_Server/build",
+  "command": "/usr/bin/clang++  -I/home/zoran/project/Cpp_Server/include -O3 -std=gnu++17 -o CMakeFiles/Cpp-Server.dir/src/Handler.cpp.o -c /home/zoran/project/Cpp_Server/src/Handler.cpp",
+  "file": "/home/zoran/project/Cpp_Server/src/Handler.cpp"
+},
+{
+  "directory": "/home/zoran/project/Cpp_Server/build",
+  "command": "/usr/bin/clang++  -I/home/zoran/project/Cpp_Server/include -O3 -std=gnu++17 -o CMakeFiles/Cpp-Server.dir/src/Parser.cpp.o -c /home/zoran/project/Cpp_Server/src/Parser.cpp",
+  "file": "/home/zoran/project/Cpp_Server/src/Parser.cpp"
+},
+{
+  "directory": "/home/zoran/project/Cpp_Server/build",
+  "command": "/usr/bin/clang++  -I/home/zoran/project/Cpp_Server/include -O3 -std=gnu++17 -o CMakeFiles/Cpp-Server.dir/src/Reactor.cpp.o -c /home/zoran/project/Cpp_Server/src/Reactor.cpp",
+  "file": "/home/zoran/project/Cpp_Server/src/Reactor.cpp"
+},
+{
+  "directory": "/home/zoran/project/Cpp_Server/build",
+  "command": "/usr/bin/clang++  -I/home/zoran/project/Cpp_Server/include -O3 -std=gnu++17 -o CMakeFiles/Cpp-Server.dir/src/WebServer.cpp.o -c /home/zoran/project/Cpp_Server/src/WebServer.cpp",
+  "file": "/home/zoran/project/Cpp_Server/src/WebServer.cpp"
+},
+{
+  "directory": "/home/zoran/project/Cpp_Server/build",
+  "command": "/usr/bin/clang++  -I/home/zoran/project/Cpp_Server/include -O3 -std=gnu++17 -o CMakeFiles/Cpp-Server.dir/src/main.cpp.o -c /home/zoran/project/Cpp_Server/src/main.cpp",
+  "file": "/home/zoran/project/Cpp_Server/src/main.cpp"
+}
+]

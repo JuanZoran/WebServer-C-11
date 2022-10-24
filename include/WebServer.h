@@ -1,24 +1,30 @@
 #pragma once
-#include "ServerConf.h"
-#include "ThreadPool.h"
+#include <stdint.h>
 
 class WebServer
 {
-public: // Construct
-    // 禁用拷贝构造函数
-    WebServer(const WebServer &) = delete;
-    WebServer(const ServerConf &config); // 初始化服务器配置
+
+public:
+    // 启动服务器
+    void Run();
+
+private:
+    void setFd(int sock);
+    void initLfd();
+    void initEfd();
+
+public:
+    WebServer();
+#if 0
+    bool setWebServer(Config config);
+    WebServer(Coifig&& config);
+
+#endif
     ~WebServer();
 
-public:               // methods
-    void EventLoop(); // 循环监听请求
-
-private: // attributes
-    ThreadPool *m_pool;
-    int m_listen_fd;
-    const ServerConf m_config;
-
-private: // methods
-    void init();
-    static void Accepter(void *arg);
+private:
+    int16_t m_lfd;
+    int16_t m_efd;
+    int16_t m_port;
+    bool isET;
 };
