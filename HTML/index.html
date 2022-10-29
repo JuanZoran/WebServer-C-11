@@ -5,32 +5,29 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=3, initial-scale=1.0" />
     <title>a Cpp WebServer</title>
+    <link rel="stylesheet" href="favicon.ico" type="image/x-icon" />
   </head>
-    <style>
-      body {
-        background-image: url(resources/background.jpg);
-        background-repeat: no-repeat;
-        background-size: top center;
-      }
-    </style>
+  <style>
+    body {
+      background-image: url(resources/background.jpg);
+      background-repeat: no-repeat;
+      background-size: cover;
+      background-attachment: fixed;
+    }
+    .mainform {
+      font-size: 25px;
+      text-align: center;
+    }
+  </style>
   <body>
-    <h1 align = "center"> 欢迎访问 </h1>
-    <!---
-    <div align = center>
-      <form action="127.0.0.1:12345">
-        <input type="submit" name="注册", value="注册"> 
-      </form>
-    </div>
-    --->
-    <div align = "center">
-      <form action="signup.html" method="POST">
+    <div class="mainform" align="center">
+      <h1>欢迎访问</h1>
+      <form action="signup.html" method="GET">
         <button type="submit">注册</button>
       </form>
-    </div>
-    <br>
-    <div align = "center">
-      <form action="login.html" method="POST">
+      <form action="login.html" method="GET">
         <button type="submit">登陆</button>
       </form>
     </div>
+  </body>
 </html>
