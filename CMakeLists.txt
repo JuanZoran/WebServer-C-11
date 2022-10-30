@@ -1,4 +1,4 @@
-cmake_minimum_required(VERSION 2.9)
+cmake_minimum_required(VERSION 3.1)
 
 aux_source_directory(src SOURCE)
 
