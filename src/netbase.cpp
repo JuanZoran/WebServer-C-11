@@ -16,16 +16,14 @@ void Fd::operator=(Fd &&other) noexcept
     m_fd = std::move(other.m_fd);
 }
 
-Fd::~Fd()
+Fd::~Fd() noexcept
 {
     if (m_fd > 0)
         close(m_fd);
 }
 
-Socket &operator>>(Socket &socket, Buffer &buffer)
-{
-    // 接受数据
-    while (int ret = recv(socket.fd(), buffer, buffer.size(), 0))
-        // 更新buffer的大小
-        buffer.resize(ret);
-}
+// Socket &operator>>(Socket &socket, Buffer &buffer)
+// {
+//     // 接受数据
+//     return socket;
+// }
