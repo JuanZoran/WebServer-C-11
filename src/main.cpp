@@ -1,50 +1,60 @@
-#include <Buffer.hpp>
-#include <iostream>
-#include <string_view>
-#include <memory>
-#include <fcntl.h>
+#include "HttpServer.h"
+#include "MessageQueue.hpp"
 #include <unistd.h>
-#include <errno.h>
-#include <arpa/inet.h>
-#include <cassert>
+#include <iostream>
+using std::endl, std::cout;
 
-using namespace std;
-
+#if 1
 int main(int argc, char **argv)
 {
-    int fd = socket(AF_INET, SOCK_STREAM, 0);
-    assert(fd > 0);
+    if (argc == 2)
+        chdir(argv[1]);
 
-    struct sockaddr_in addr;
-    addr.sin_family = AF_INET;
-    addr.sin_port = htons(12345);
-    addr.sin_addr.s_addr = INADDR_ANY;
-    bind(fd, (struct sockaddr *)&addr, sizeof(struct sockaddr));
-
-    listen(fd, 128);
-
-    struct sockaddr_in caddr;
-    socklen_t addrlen = sizeof(caddr);
-    int cfd = accept(fd, (struct sockaddr *)&caddr, &addrlen);
-    cout << "cfd = " << cfd << endl;
-
-    constexpr int BUFFER_SIZE = 1024;
-    Zoran::Buffer<BUFFER_SIZE> buffer;
-
-    // auto flag = fcntl(cfd, F_GETFL, 0);
-    // fcntl(cfd, F_SETFL, flag | O_NONBLOCK);
-
-    int ret = recv(cfd, buffer, BUFFER_SIZE, 0);
-    buffer.update(ret);
-    cout << ret << endl;
-    if (ret < 0)
-    {
-        perror("ret error");
-    }
-    string_view request(buffer.data(), buffer.dataSize());
-    cout << request << endl;
-
-    close(cfd);
-    close(fd);
+    HttpServer server(12345);
+    server.Run();
+    cout << "ok" << endl;
     return 0;
 }
+
+#else
+#include <thread>
+#include <chrono>
+
+using namespace std::chrono;
+using std::thread;
+struct test
+{
+    const char *mes;
+    int status;
+};
+MessageQueue<test> queue;
+
+void worker()
+{
+    while (true)
+    {
+        // 不停的取出任务并且读
+        auto msg = queue.pop();
+        cout << "线程id:" << std::this_thread::get_id() << "取出msg" << endl;
+        cout << msg.mes << "\t" << msg.status << "\t" << endl;
+    }
+}
+int main(int argc, char **argv)
+{
+    thread t[10];
+    for (int i = 0; i < 10; i++)
+        t[i] = thread(worker);
+
+    for (int i = 0; i < 10; i++)
+    {
+        std::this_thread::sleep_for(3s);
+        test t{"test", i};
+        queue.push(t);
+    }
+
+    for (int i = 0; i < 10; i++)
+        t[i].join();
+    return 0;
+}
+
+#endif
