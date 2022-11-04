@@ -2,6 +2,13 @@
 #include <sys/epoll.h>
 #include <unistd.h>
 #include <memory>
+#include <fcntl.h>
+
+void Epoll::setNonBlock(int fd) noexcept
+{
+    auto flag = fcntl(fd, F_GETFL, 0);
+    fcntl(fd, F_SETFL, flag | O_NONBLOCK);
+}
 
 Epoll::Epoll() noexcept
 {
@@ -15,6 +22,7 @@ Epoll::~Epoll() noexcept
 
 void Epoll::add(int fd) noexcept
 {
+    setNonBlock(fd);
     struct epoll_event event;
     event.data.fd = fd;
     event.events = EPOLLIN | EPOLLET;
@@ -41,6 +49,6 @@ Epoll::Events Epoll::wait(int timeout) const noexcept
     std::vector<int> res(ret, 0);
     // 将有效的数据返回
     for (int i = 0; i < ret; i++)
-        res.emplace_back(events[i].data.fd);
+        res[i] = events[i].data.fd;
     return res;
 }

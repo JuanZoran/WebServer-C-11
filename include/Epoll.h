@@ -17,6 +17,9 @@ public:
 
     int size() const noexcept { return num; }
 
+private:
+    void setNonBlock(int fd) noexcept;
+
 public:
     // 获得一颗Epoll树
     Epoll() noexcept;

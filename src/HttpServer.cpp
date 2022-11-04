@@ -1,8 +1,7 @@
 #include "HttpServer.h"
-#include <unistd.h>
 #include "Reactor.h"
 
-HttpServer::HttpServer(short port) noexcept : sock(Socket(port))
+HttpServer::HttpServer(short port) noexcept : sock(port)
 {
 }
 
