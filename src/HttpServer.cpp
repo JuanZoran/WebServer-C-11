@@ -1,12 +1,10 @@
 #include "HttpServer.h"
-#include "Reactor.h"
 
-HttpServer::HttpServer(short port) noexcept : sock(port)
+HttpServer::HttpServer(short port) noexcept : reactor(port)
 {
 }
 
-void HttpServer::Run()
+void HttpServer::Run() noexcept
 {
-    Reactor reactor(sock);
     reactor.EventLoop();
 }

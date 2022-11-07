@@ -1,8 +1,7 @@
+#if 1
 #include "HttpServer.h"
-#include "MessageQueue.hpp"
 #include <unistd.h>
 
-#if 1
 int main(int argc, char **argv)
 {
     if (argc == 2)
@@ -14,18 +13,50 @@ int main(int argc, char **argv)
 }
 
 #else
-#include <string_view>
 #include <iostream>
 using namespace std;
 
-string_view f()
+class test
 {
-    return "test for string_view";
+public:
+    test()
+    {
+        cout << "test 构造函数被调用" << endl;
+    }
+
+    test(test &a)
+    {
+        cout << "test 左值引用被调用" << endl;
+    }
+    test(test &&a)
+    {
+        cout << "test 右值引用被调用" << endl;
+    }
+
+    ~test()
+    {
+        cout << "test 析构函数被调用" << endl;
+    }
+
+    int a;
+};
+
+void fun(test a)
+{
+    cout << "fun 开始执行" << endl;
 }
 
 int main(int argc, char **argv)
 {
-    cout << f() << endl;
+    fun(test());
+    cout << "fun 执行完毕" << endl;
+
+    test a;
+    a.a = 10;
+    test b = move(a);
+    b.a = 20;
+    cout << "a = " << a.a << endl;
+    cout << "b = " << b.a << endl;
     return 0;
 }
 

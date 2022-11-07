@@ -1,6 +1,5 @@
 #pragma cone
 #include "Handler_base.h"
-#include <functional>
 #include "Data.hpp"
 
 int recvMessage(int cfd, char *buffer, size_t BUFFER_SIZE);

@@ -42,10 +42,10 @@ struct ResponseLine
 
 struct HttpRequest
 {
-
-    RequestLine line;
-    Header header;
-    Body body;
+    // tot = 48 + 56 + 16 => 120
+    RequestLine line; // 48
+    Header header;    // 56
+    Body body;        // 16
 
     friend std::ostream &operator<<(std::ostream &os, const HttpRequest &request)
     {
@@ -57,15 +57,18 @@ struct HttpRequest
 
 struct HttpResponse
 {
-    ResponseLine line;
-    Header header;
-    Body body;
-    bool isFileName;
+    // tot = 36 + 56 + 16 + 1 = 109
+    // 对齐到16的倍数 => 120 (浪费了11个字节)
+    ResponseLine line;  // 36
+    Header header;      // 56
+    Body body;          // 16
+    int32_t isFileName; // 1
+    int32_t filesize;   // 可选的
+
     friend std::ostream &operator<<(std::ostream &os, const HttpResponse &response)
     {
         os << response.line << "\r\n";
         os << response.header << "\r\n";
-        os << "\r\n";
         return os << response.body << "\r\n";
     }
 };

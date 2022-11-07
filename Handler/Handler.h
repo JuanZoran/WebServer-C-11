@@ -1,7 +1,8 @@
 #pragma once
 #include <iostream>
 #include "Handler_base.h"
-#include "Receiver.h"
+#include "Handler_impl.h"
+#include <functional>
 
 using std::endl, std::cout;
 // 接口继承
@@ -24,10 +25,14 @@ public:
     {
         auto request = recvRequest(cfd);
         auto response = HandleRequest(request);
+        if (response.header.find("content-length") == response.header.end())
+            response.header["content-length"] = "-1";
+
         sendResponse(cfd, response);
     }
     catch (std::logic_error e)
     {
+        // TODO: 查看错误结果
         cout << "抓到错误" << endl;
         cout << e.what() << endl;
         sendResponse(cfd, notFound);

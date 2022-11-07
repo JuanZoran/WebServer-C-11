@@ -1,7 +1,6 @@
 #include "Reactor.h"
 #include "Epoll.h"
 #include "MessageQueue.hpp"
-#include <arpa/inet.h>
 #include <task.hpp>
 #include "Handler.h"
 
@@ -16,23 +15,15 @@ void worker()
     Handler handler;
     while (true)
     {
-        int cfd = requestQueue.pop();
+        Fd cfd = requestQueue.pop();
         cout << "Handler begin to work" << endl;
         handler.processRequest(cfd);
     }
 }
 
-void acceptConnection(int sock)
+Reactor::Reactor(short port) noexcept : sock(port)
 {
-    struct sockaddr_in addr;
-    socklen_t addrlen = sizeof(addr);
-    int cfd = accept(sock, (struct sockaddr *)&addr, &addrlen);
-    epoll.add(cfd);
-    cout << "添加客户端连接成功:" << cfd << endl;
-}
-
-Reactor::Reactor(int sock) noexcept : sock(sock)
-{
+    cout << "Reactor socket = " << sock << endl;
     // 将该监听文件描述符插入到Epoll 树上
     epoll.add(sock);
     std::thread work(worker);
@@ -41,18 +32,19 @@ Reactor::Reactor(int sock) noexcept : sock(sock)
 
 void Reactor::EventLoop() noexcept
 {
+    // cout << "开始事件循环........." << endl;
     // 开始事件循环
-    cout << "begin to loop..." << endl;
     while (true)
     {
         auto ret = epoll.wait(-1);
-        if (ret)
-        {
-            // FIXME: 连接队列使用条件变量, 可以不用使用任务队列
-            for (int fd : *ret)
-                fd == sock
-                    ? acceptConnection(sock)
-                    : requestQueue.push(fd);
-        }
+        // cout << "Loop..." << endl;
+        for (auto fd : ret)
+            // 如果是连接事件, 则接受
+            // 如果是消息时间,则派发给工作线程
+            // FIXME: 连接后的fd 立马就被关闭了
+            // FIXME: socket传入port变成了 fd
+            fd == sock
+                ? epoll.add(sock.accept())
+                : requestQueue.push(fd);
     }
 }

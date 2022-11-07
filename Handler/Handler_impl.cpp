@@ -1,8 +1,7 @@
-#include "Receiver.h"
+#include "Handler_impl.h"
 #include "Epoll.h"
 #include <cstring>
 #include <arpa/inet.h>
-#include <unistd.h>
 #include <errno.h>
 #include <stdexcept>
 
@@ -27,7 +26,6 @@ int recvMessage(int cfd, char *buffer, size_t BUFFER_SIZE)
     if (ret == 0)
     {
         epoll.del(cfd);
-        close(cfd);
     }
     else if (ret == -1 && errno != EAGAIN)
     {

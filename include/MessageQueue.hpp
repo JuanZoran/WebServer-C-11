@@ -48,15 +48,12 @@ private:
 template <typename message>
 message MessageQueue<message>::pop() noexcept
 {
-    message res;
-    {
-        guard_t lk(q_lock);
-        // 必须 queue内有元素
-        consumer.wait(lk, [this]
-                      { return !queue.empty(); });
-        res = queue.front();
-        queue.pop();
-    }
+    guard_t lk(q_lock);
+    // 必须 queue内有元素
+    consumer.wait(lk, [this]
+                  { return !queue.empty(); });
+    message res = queue.front();
+    queue.pop();
     return res;
 }
 

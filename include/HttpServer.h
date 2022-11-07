@@ -1,5 +1,5 @@
 #pragma once
-#include "Socket.h"
+#include "Reactor.h"
 
 class HttpServer
 {
@@ -8,11 +8,11 @@ public:
     explicit HttpServer(short port) noexcept;
 
     // 启动整体框架
-    void Run();
+    void Run() noexcept;
 
     HttpServer(HttpServer &server) = delete;
     HttpServer &operator=(HttpServer &server) = delete;
 
 private:
-    Socket sock;
+    Reactor reactor;
 };

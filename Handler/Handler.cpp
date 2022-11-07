@@ -1,15 +1,14 @@
 #include "Handler.h"
+#include <filesystem>
 #include <sys/sendfile.h>
 #include <sstream>
 #include <arpa/inet.h>
-#include <unistd.h>
-#include <fcntl.h>
 
 HttpResponse Handler::notFound{
-    {"HTTP/1.1", 404, "notFound"},
+    {"HTTP/1.1", 404, "Not Found"},
     {},
     "404.html",
-    true};
+    1};
 
 Handler::map Handler::strategy;
 
@@ -28,23 +27,18 @@ HttpRequest Handler::recvRequest(int cfd) noexcept
     parseHeader(request.header, origin);
 
     request.body = origin;
-#if 0
+#if 1
+    // TODO: 查看解析结果
     cout << "解析结果如下:" << endl;
-    cout << request.line << endl;
-    for (auto &[key, value] : request.header)
-        cout << key << ":" << value << endl;
-    cout << request.body;
+    cout << request << endl;
 #endif
     return request;
 }
 
 HttpResponse Handler::HandleRequest(const HttpRequest &request) noexcept
 {
-    cout << "处理中..." << endl;
     auto res = strategy.find(request.line.method);
-
     // 如果有对应的处理函数则调用, 否则返回错误请求报文
-    cout << "处理完成" << endl;
     return res == strategy.end() ? notFound : res->second(request);
 }
 
@@ -54,12 +48,19 @@ void Handler::sendResponse(int cfd, const HttpResponse &response) noexcept
     std::ostringstream buf;
     cout << response << "\r\n";
     return;
+
+    // TODO: 实现自动计算报文大小
     // 响应行
     if (response.isFileName)
     {
         buf << response.line << "\r\n";
         buf << response.header << "\r\n";
         // 发送文件
+        // C++20 可以使用 view 返回视图, 不用拷贝一份字符串
+        // FIXME: 发送文件
+        auto res = buf.str();
+        send(cfd, res.data(), res.size(), 0);
+        auto size = std::filesystem::file_size(response.body);
     }
     else
     {
