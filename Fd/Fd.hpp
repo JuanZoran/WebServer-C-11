@@ -16,20 +16,13 @@ public:
     }
 
 public:
-    // 不可赋值, 类似于unique_ptr
+    // 不可赋值, 默认构造为了子类可以继承
     Fd() = default;
     Fd(int fd) noexcept : m_fd(fd){};
 
-    Fd &operator=(Fd &fd) noexcept
-    {
-        m_fd = fd.m_fd;
-        fd.m_fd = 0;
-        return *this;
-    }
-
     Fd(Fd &other) noexcept : m_fd(other.m_fd)
     {
-        other.m_fd = 0;
+        other.m_fd = -1;
     }
 
     ~Fd() noexcept
@@ -40,5 +33,12 @@ public:
     }
 
 protected:
-    int m_fd;
+    int m_fd{};
+
+    // Fd &operator=(Fd &fd) noexcept
+    // {
+    //     m_fd = fd.m_fd;
+    //     fd.m_fd = -1;
+    //     return *this;
+    // }
 };

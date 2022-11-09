@@ -5,7 +5,11 @@
 int main(int argc, char **argv)
 {
     if (argc == 2)
-        chdir(argv[1]);
+    {
+        auto ret = chdir(argv[1]);
+        if (ret < 0)
+            return 1;
+    }
 
     HttpServer server(12345);
     server.Run();

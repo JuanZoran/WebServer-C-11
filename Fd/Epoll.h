@@ -10,10 +10,8 @@ public:
 public:
     void add(int fd) noexcept;
     void del(int fd) noexcept;
-    // 如果没有事件有效, 将返回空
+    // TODO:如果没有事件有效, 将返回空
     Events wait(int timeout) const noexcept;
-
-    int size() const noexcept { return num; }
 
 private:
     static void setNonBlock(int fd) noexcept;
@@ -24,5 +22,5 @@ public:
     Epoll(int fd) = delete;
 
 private:
-    int num = 0;
+    int num{};
 };

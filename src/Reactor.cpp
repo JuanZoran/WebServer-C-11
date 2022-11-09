@@ -15,7 +15,7 @@ void worker()
     Handler handler;
     while (true)
     {
-        Fd cfd = requestQueue.pop();
+        int cfd = requestQueue.pop();
         cout << "Handler begin to work" << endl;
         handler.processRequest(cfd);
     }
@@ -23,7 +23,7 @@ void worker()
 
 Reactor::Reactor(short port) noexcept : sock(port)
 {
-    cout << "Reactor socket = " << sock << endl;
+    // cout << "Reactor socket = " << sock << endl;
     // 将该监听文件描述符插入到Epoll 树上
     epoll.add(sock);
     std::thread work(worker);
@@ -41,8 +41,6 @@ void Reactor::EventLoop() noexcept
         for (auto fd : ret)
             // 如果是连接事件, 则接受
             // 如果是消息时间,则派发给工作线程
-            // FIXME: 连接后的fd 立马就被关闭了
-            // FIXME: socket传入port变成了 fd
             fd == sock
                 ? epoll.add(sock.accept())
                 : requestQueue.push(fd);

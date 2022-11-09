@@ -59,11 +59,11 @@ struct HttpResponse
 {
     // tot = 36 + 56 + 16 + 1 = 109
     // 对齐到16的倍数 => 120 (浪费了11个字节)
-    ResponseLine line;  // 36
-    Header header;      // 56
-    Body body;          // 16
-    int32_t isFileName; // 1
-    int32_t filesize;   // 可选的
+    ResponseLine line; // 36
+    Header header;     // 56
+    Body body;         // 16
+    int32_t filesize;  // 可选的
+    bool isFileName;   // 1
 
     friend std::ostream &operator<<(std::ostream &os, const HttpResponse &response)
     {

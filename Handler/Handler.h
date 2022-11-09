@@ -38,6 +38,11 @@ public:
         sendResponse(cfd, notFound);
     }
 
+    static void addMethod(str method, std::function<HttpResponse(const HttpRequest &)> func)
+    {
+        strategy[method] = std::move(func);
+    }
+
 private:
     HttpRequest recvRequest(int cfd) noexcept;
 

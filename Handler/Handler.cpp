@@ -1,16 +1,28 @@
+#include "Fd.hpp"
 #include "Handler.h"
-#include <filesystem>
 #include <sys/sendfile.h>
 #include <sstream>
+#include "GET.h"
+#include <fcntl.h>
 #include <arpa/inet.h>
 
 HttpResponse Handler::notFound{
     {"HTTP/1.1", 404, "Not Found"},
     {},
     "404.html",
-    1};
+    {},
+    true};
 
-Handler::map Handler::strategy;
+Handler::map Handler::strategy{
+    {"GET", [](const HttpRequest &request) -> HttpResponse
+     {
+         return HttpResponse{
+             {"HTTP/1.1", 200, "OK"},
+             {},
+             GET::map[request.line.uri],
+             {},
+             true};
+     }}};
 
 HttpRequest Handler::recvRequest(int cfd) noexcept
 {
@@ -47,7 +59,6 @@ void Handler::sendResponse(int cfd, const HttpResponse &response) noexcept
     // // 创建缓冲区
     std::ostringstream buf;
     cout << response << "\r\n";
-    return;
 
     // TODO: 实现自动计算报文大小
     // 响应行
@@ -57,14 +68,19 @@ void Handler::sendResponse(int cfd, const HttpResponse &response) noexcept
         buf << response.header << "\r\n";
         // 发送文件
         // C++20 可以使用 view 返回视图, 不用拷贝一份字符串
-        // FIXME: 发送文件
         auto res = buf.str();
         send(cfd, res.data(), res.size(), 0);
-        auto size = std::filesystem::file_size(response.body);
+        // auto size = std::filesystem::file_size(response.body);
+        Fd file = open(response.body.data(), O_RDONLY);
+        auto size = lseek(file, 0, SEEK_END);
+        lseek(file, 0, SEEK_SET);
+        sendfile(cfd, file, 0, size);
     }
     else
     {
         buf << response;
+        auto res = buf.str();
+        send(cfd, res.data(), res.size(), 0);
     }
     // 响应体
 }

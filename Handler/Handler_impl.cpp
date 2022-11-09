@@ -26,6 +26,7 @@ int recvMessage(int cfd, char *buffer, size_t BUFFER_SIZE)
     if (ret == 0)
     {
         epoll.del(cfd);
+        close(cfd);
     }
     else if (ret == -1 && errno != EAGAIN)
     {
