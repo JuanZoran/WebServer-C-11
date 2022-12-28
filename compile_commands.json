@@ -1,0 +1,11 @@
+[
+{
+  "directory": "/home/zoran/project/Cpp_Server",
+  "arguments": ["/bin/clang", "-c", "-Qunused-arguments", "-m64", "-Wall", "-O0", "-std=c++17", "-Isrc/Util", "-DDEBUG", "-g", "-o", "build/.objs/test_color/linux/x86_64/debug/src/Test/test_color.cpp.o", "src/Test/test_color.cpp"],
+  "file": "src/Test/test_color.cpp"
+},
+{
+  "directory": "/home/zoran/project/Cpp_Server",
+  "arguments": ["/bin/clang", "-c", "-Qunused-arguments", "-m64", "-Wall", "-O0", "-std=c++17", "-I/home/zoran/project/Cpp_Server/src/Server", "-I/home/zoran/project/Cpp_Server/src/Test", "-I/home/zoran/project/Cpp_Server/src/Thread", "-I/home/zoran/project/Cpp_Server/src/Util", "-I/home/zoran/project/Cpp_Server/src/NetWork", "-DDEBUG", "-g", "-o", "build/.objs/CppServer/linux/x86_64/debug/src/main.cpp.o", "src/main.cpp"],
+  "file": "src/main.cpp"
+}]
